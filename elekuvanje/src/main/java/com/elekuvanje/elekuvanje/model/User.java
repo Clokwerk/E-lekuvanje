@@ -12,6 +12,7 @@ import java.util.Collections;
 @Table(name="users")
 public class User implements UserDetails {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String EMBG;
     private String username;
@@ -28,13 +29,14 @@ public class User implements UserDetails {
     public User() {
     }
 
-    public User(Long id, String EMBG, String username, String password, String firstName, String lastName) {
-        this.id = id;
+    public User(String EMBG, String username, String password, String firstName, String lastName,Role role) {
+
         this.EMBG = EMBG;
         this.username = username;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.role=role;
     }
 
     public Long getId() {
