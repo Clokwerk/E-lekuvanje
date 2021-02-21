@@ -6,7 +6,11 @@ import com.elekuvanje.elekuvanje.service.TerminService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
 @Service
 public class TerminServiceImpl implements TerminService {
     private TerminRepository terminRepository;
@@ -28,5 +32,8 @@ public class TerminServiceImpl implements TerminService {
         this.terminRepository.save(new Termin(doctorId,patientId,dateTime,location));
     }
 
-
+    @Override
+    public List<Termin> findBySetByDoctorId(Long doctorId) {
+        return this.terminRepository.findAll().stream().filter(x->x.getSetByDoctorId()==doctorId).collect(Collectors.toList());
+    }
 }
