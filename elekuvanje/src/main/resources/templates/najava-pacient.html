@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Прикажи термин</title>
+    <title>Најава</title>
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css">
     <link rel="stylesheet" type="text/css" href="styles.css">
@@ -20,24 +20,25 @@
     <div id="date-div"></div>
 </div>
 <hr class="linija1" size="8" width="100%"  color="red">
-<h2 class="vnesete">Приказ на закажани термини на доктор</h2>
+<h2 class="vnesete">Најава на системот за пациенти</h2>
 <hr id="linija" size="8" width="86%" color="red">
 
 <div class="vl" id="vert"></div>
 <img class="slika" id="slika1" src="slika.jpg" alt="slika">
 
-<table>
-    <tr>
-        <th>Име и презиме на пациент</th>
-        <th>Датум и време</th>
-        <th>Детали за локација</th>
-    </tr>
-    <tr>
-        <td>Пациент 1</td>
-        <td>02/22/2021 12:00PM</td>
-        <td>Соба за прегледување 1</td>
-    </tr>
-</table>
+<p id="tekst">Најавете се на системот со внесување на вашите корисничко име и лозинка:</p>
+<div id="korisnickoIme">
+    <br/>
+    <label>Корисничко име</label>
+    <input type='text'class="uredi"/>
+</div>
+<div id="pass">
+    <br/>
+    <label>Лозинка</label>
+    <input type='text' id="pomesti" class="uredi"/>
+</div>
+
+<input type="submit" value="Најави се" id="kopce1">
 
 </body>
 </html>
