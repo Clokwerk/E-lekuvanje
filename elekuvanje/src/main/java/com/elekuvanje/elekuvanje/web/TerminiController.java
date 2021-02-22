@@ -13,7 +13,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/termini")
-@PreAuthorize("hasRole('ROLE_PATIENT')")
+//@PreAuthorize("hasRole('ROLE_PATIENT')")
 public class TerminiController {
     private final TerminService terminService;
     public TerminiController(TerminService terminService){

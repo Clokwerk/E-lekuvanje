@@ -17,7 +17,8 @@ import java.security.Principal;
 import java.util.List;
 
 @Controller
-@RequestMapping("/doctor")
+
+
 
 public class DoctorController {
     private final TerminService terminService;
@@ -26,7 +27,8 @@ public class DoctorController {
         this.terminService=terminService;
         this.userRepository=userRepository;
     }
-    @GetMapping
+
+    @GetMapping(path="/doctor")
 
     public String getDoctorTerminPages(@RequestParam(required = false) String error, Model model, Principal principal){
         if(error != null && !error.isEmpty()){
