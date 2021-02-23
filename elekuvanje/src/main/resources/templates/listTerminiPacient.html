@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Прикажи термин</title>
-    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css">
-    <link rel="stylesheet" type="text/css" href="styles.css">
+    <link th:href="@{/css/styles.css}" rel="stylesheet" />
 
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/2.14.1/moment.min.js"></script>
@@ -24,7 +25,7 @@
 <hr id="linija" size="8" width="86%" color="red">
 
 <div class="vl" id="vert"></div>
-<img class="slika" id="slika1" src="slika.jpg" alt="slika">
+<img class="slika" id="slika1" src="../static/images/slika.jpg" alt="slika">
 
 <table>
     <tr>
@@ -32,14 +33,17 @@
         <th>Датум и време</th>
         <th>Детали за локација</th>
     </tr>
+    <th:block th:each="termin : ${terminList}">
     <tr>
-        <td>Доктор 1</td>
-        <td>02/22/2021 12:00PM</td>
-        <td>Соба за прегледување 1</td>
+        <td th:text="${termin.getId()}"></td>
+        <td th:text="${termin.getDateAndTime()}">02/22/2021 12:00PM</td>
+        <td th:text="${termin.getLocation()}">Соба за прегледување 1</td>
     </tr>
+    </th:block>
 </table>
 
 <input type="submit" value="Одјави се" id="kopce2">
+<a href="https://localhost/patient/logout">Logout</a>
 
 </body>
 </html>

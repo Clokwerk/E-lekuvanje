@@ -12,13 +12,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.security.Principal;
 import java.util.List;
 
 @Controller
 
-
+@RequestMapping("/doctor")
 
 public class DoctorController {
     private final TerminService terminService;
@@ -27,10 +28,30 @@ public class DoctorController {
         this.terminService=terminService;
         this.userRepository=userRepository;
     }
+    @GetMapping(value = "/login")
+    public RedirectView getLoginPage(Model model) {
+        //model.addAttribute("bodyContent","login");
+        //return "najava-doktor";
+        return new RedirectView("/doctor/termini");
+    }
 
-    @GetMapping(path="/doctor")
 
-    public String getDoctorTerminPages(@RequestParam(required = false) String error, Model model, Principal principal){
+
+    @GetMapping(value="/termini")
+
+    public String getTerminiPage(@RequestParam(required = false) String error, Model model){
+        if(error != null && !error.isEmpty()){
+            model.addAttribute("hasError",true);
+            model.addAttribute("error",error);
+        }
+
+        List<Termin> terminList=this.terminService.listAll();
+        model.addAttribute("terminList",terminList);
+        return "listTermini";
+    }
+
+
+   /* public String getDoctorTerminPages(@RequestParam(required = false) String error, Model model, Principal principal){
         if(error != null && !error.isEmpty()){
             model.addAttribute("hasError",true);
             model.addAttribute("error",error);
@@ -41,8 +62,10 @@ public class DoctorController {
         List<Termin> terminList=this.terminService.listAll();
         model.addAttribute("terminList",terminList);
         return "listTermini";
+        */
+
     }
 
 
 
-}
+

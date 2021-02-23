@@ -36,4 +36,11 @@ public class TerminServiceImpl implements TerminService {
     public List<Termin> findBySetByDoctorId(Long doctorId) {
         return this.terminRepository.findAll().stream().filter(x->x.getSetByDoctorId()==doctorId).collect(Collectors.toList());
     }
+
+    @Override
+    public List<Termin> findBySetForPatientId(Long patientId) {
+        return this.terminRepository.findAll().stream().filter(x->x.getSetForPatientId()==patientId).collect(Collectors.toList());
+
+    }
+
 }

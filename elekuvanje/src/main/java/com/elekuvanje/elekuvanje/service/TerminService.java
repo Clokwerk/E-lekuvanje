@@ -11,5 +11,6 @@ public interface TerminService {
     void deleteById(Long Id);
     void createTermin(Long doctorId, Long patientId, LocalDateTime dateTime,String location);
     List<Termin> findBySetByDoctorId(Long doctorId);
+    List<Termin> findBySetForPatientId(Long patientId);
 
 }
