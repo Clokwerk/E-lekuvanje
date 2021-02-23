@@ -2,6 +2,7 @@ package com.elekuvanje.elekuvanje.web;
 
 import com.elekuvanje.elekuvanje.model.Termin;
 import com.elekuvanje.elekuvanje.service.TerminService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +13,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/termini")
+//@PreAuthorize("hasRole('ROLE_PATIENT')")
 public class TerminiController {
     private final TerminService terminService;
     public TerminiController(TerminService terminService){

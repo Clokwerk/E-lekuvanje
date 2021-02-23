@@ -10,19 +10,38 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-
+class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final PasswordEncoder passwordEncoder;
     private final CustomPatientAuthenticationProvider customPatientAuthenticationProvider;
 
-    public WebSecurityConfig(PasswordEncoder passwordEncoder,CustomPatientAuthenticationProvider customPatientAuthenticationProvider){
-        this.passwordEncoder=passwordEncoder;
+    public WebSecurityConfig(PasswordEncoder passwordEncoder,
+                             CustomPatientAuthenticationProvider customPatientAuthenticationProvider) {
+        this.passwordEncoder = passwordEncoder;
         this.customPatientAuthenticationProvider=customPatientAuthenticationProvider;
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        super.configure(http);
+        http.csrf().disable()
+                .authorizeRequests()
+                .antMatchers("/","/doctor","/doctor/**").permitAll()
+                .antMatchers("/termini").hasRole("DOCTOR")
+                .anyRequest()
+                .authenticated()
+        .and()
+        .formLogin()
+        .loginPage("/login").permitAll()
+        .failureUrl("/login?error=BadCredentials")
+        .defaultSuccessUrl("/termini",true)
+        .and()
+        .logout()
+        .logoutUrl("/logout")
+        .clearAuthentication(true)
+        .invalidateHttpSession(true)
+        .deleteCookies("JSESSIONID")
+        .logoutSuccessUrl("/login");
+
+
     }
 
     @Override
@@ -30,3 +49,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         auth.authenticationProvider(this.customPatientAuthenticationProvider);
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
