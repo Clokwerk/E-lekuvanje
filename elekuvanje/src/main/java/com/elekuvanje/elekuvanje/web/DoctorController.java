@@ -53,8 +53,8 @@ public class DoctorController {
                 throw new InvalidArgumentsException();
             }
 
-             user = this.userRepository.findByUsernameAndPassword(username, password).get();
-            if (user.getRole().toString().equals("ROLE_DOCTOR")) {
+             user = this.userRepository.findByUsernameAndPassword(username, password).orElse(null);
+            if (user != null && user.getRole().toString().equals("ROLE_DOCTOR")) {
                 request.getSession().setAttribute("doctor", user);
                 return "redirect:/doctor/termini";
             }else{
@@ -87,6 +87,12 @@ public class DoctorController {
         //List<Termin> terminList=this.terminService.listAll();
         model.addAttribute("terminList",terminList);
         return "listTermini";
+    }
+
+    @GetMapping(value="/logout")
+    public String logout(HttpServletRequest request) {
+        request.getSession().invalidate();
+        return "redirect:/doctor/login";
     }
 
 

@@ -17,7 +17,7 @@
 <body>
 <hr class="linija1" size="8" width="100%" color="red">
 <div class="meni">
-    <a href="pochetna.html">
+    <a href="https://localhost">
         <h1 class="logo">Е - лекување</h1></a>
     <div id="date-div"></div>
 </div>
@@ -26,7 +26,7 @@
 <hr id="linija" size="8" width="86%" color="red">
 
 <div class="vl" id="vert"></div>
-<img class="slika" id="slika1" src="../static/images/slika.jpg" alt="slika">
+<img class="slika" id="slika1" src="../images/slika.jpg" alt="slika">
 
 <table>
     <tr>
@@ -36,14 +36,14 @@
     </tr>
     <th:block th:each="termin : ${terminList}">
         <tr>
-            <td th:text="${termin.getId()}"></td>
+            <td th:text="${termin.getSetForPatientId()}"></td>
             <td th:text="${termin.getDateAndTime()}">02/22/2021 12:00PM</td>
             <td th:text="${termin.getLocation()}">Соба за прегледување 1</td>
         </tr>
     </th:block>
 </table>
 
-<input type="submit" value="Одјави се" id="kopce2">
+<a href="https://localhost/doctor/logout"><input type="submit" value="Одјави се" id="kopce2"></a>
 
 </body>
 </html>
