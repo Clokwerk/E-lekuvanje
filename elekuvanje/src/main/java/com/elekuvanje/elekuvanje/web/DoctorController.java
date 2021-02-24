@@ -9,10 +9,7 @@ import com.elekuvanje.elekuvanje.service.TerminService;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -88,6 +85,40 @@ public class DoctorController {
         model.addAttribute("terminList",terminList);
         return "listTermini";
     }
+
+    @GetMapping(value="/termini/add")
+    public String getAddTerminiPage(@RequestParam(required = false) String error, Model model, HttpServletRequest request){
+        if(error != null && !error.isEmpty()){
+            model.addAttribute("hasError",true);
+            model.addAttribute("error",error);
+        }
+
+
+        User user=(User) request.getSession().getAttribute("doctor");
+        if(user == null){
+            return "redirect:/doctor/login";
+        }
+        return "addTermin";
+    }
+
+    @PostMapping(value="/termini/add")
+    public String postAddTermini(@RequestParam(required = false) String error, Model model, HttpServletRequest request){
+        if(error != null && !error.isEmpty()){
+            model.addAttribute("hasError",true);
+            model.addAttribute("error",error);
+        }
+
+
+        User user=(User) request.getSession().getAttribute("doctor");
+        if(user == null){
+            return "redirect:/doctor/login";
+        }
+        return "addTermin";
+    }
+
+   
+
+
 
     @GetMapping(value="/logout")
     public String logout(HttpServletRequest request) {
