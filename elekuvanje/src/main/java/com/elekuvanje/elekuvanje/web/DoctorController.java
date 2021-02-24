@@ -1,19 +1,22 @@
 package com.elekuvanje.elekuvanje.web;
 
+import com.elekuvanje.elekuvanje.exceptions.InvalidArgumentsException;
+import com.elekuvanje.elekuvanje.exceptions.NoSuchUserException;
 import com.elekuvanje.elekuvanje.model.Termin;
+import com.elekuvanje.elekuvanje.model.User;
 import com.elekuvanje.elekuvanje.repository.UserRepository;
 import com.elekuvanje.elekuvanje.service.TerminService;
-import org.springframework.security.access.prepost.PostAuthorize;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.view.RedirectView;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.security.Principal;
 import java.util.List;
 
@@ -28,24 +31,60 @@ public class DoctorController {
         this.terminService=terminService;
         this.userRepository=userRepository;
     }
-    @GetMapping(value = "/login")
+   /* @GetMapping(value = "/login")
     public RedirectView getLoginPage(Model model) {
         //model.addAttribute("bodyContent","login");
         //return "najava-doktor";
         return new RedirectView("/doctor/termini");
     }
+*/
+    @GetMapping(value="/login")
+    public String getLoginPage(Model model){
+        return "najava-doktor";
+    }
 
+    @PostMapping(value="/login")
+    public String postLoginPage(HttpServletRequest request,Model model){
+        User user=null;
+        try {
+            String username = request.getParameter("username");
+            String password = request.getParameter("password");
+            if (username == null || username.isEmpty() || password == null || password.isEmpty()) {
+                throw new InvalidArgumentsException();
+            }
+
+             user = this.userRepository.findByUsernameAndPassword(username, password).get();
+            if (user.getRole().toString().equals("ROLE_DOCTOR")) {
+                request.getSession().setAttribute("doctor", user);
+                return "redirect:/doctor/termini";
+            }else{
+                throw new NoSuchUserException();
+            }
+        }catch(InvalidArgumentsException invalidArgumentsException){
+
+            return "najava-doktor";
+        }catch (NoSuchUserException noSuchUserException){
+            return "najava-doktor";
+        }
+
+    }
 
 
     @GetMapping(value="/termini")
 
-    public String getTerminiPage(@RequestParam(required = false) String error, Model model){
+    public String getTerminiPage(@RequestParam(required = false) String error, Model model, HttpServletRequest request){
         if(error != null && !error.isEmpty()){
             model.addAttribute("hasError",true);
             model.addAttribute("error",error);
         }
 
-        List<Termin> terminList=this.terminService.listAll();
+
+        User user=(User) request.getSession().getAttribute("doctor");
+        if(user == null){
+            return "redirect:/doctor/login";
+        }
+        List<Termin> terminList=this.terminService.findBySetByDoctorId(userRepository.findByUsername(user.getUsername()).get().getId());
+        //List<Termin> terminList=this.terminService.listAll();
         model.addAttribute("terminList",terminList);
         return "listTermini";
     }

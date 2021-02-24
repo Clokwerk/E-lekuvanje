@@ -33,11 +33,13 @@
         <th>Датум и време</th>
         <th>Детали за локација</th>
     </tr>
-    <tr>
-        <td>Пациент 1</td>
-        <td>02/22/2021 12:00PM</td>
-        <td>Соба за прегледување 1</td>
-    </tr>
+    <th:block th:each="termin : ${terminList}">
+        <tr>
+            <td th:text="${termin.getId()}"></td>
+            <td th:text="${termin.getDateAndTime()}">02/22/2021 12:00PM</td>
+            <td th:text="${termin.getLocation()}">Соба за прегледување 1</td>
+        </tr>
+    </th:block>
 </table>
 
 <input type="submit" value="Одјави се" id="kopce2">

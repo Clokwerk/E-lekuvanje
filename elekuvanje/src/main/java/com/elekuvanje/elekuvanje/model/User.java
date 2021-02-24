@@ -29,7 +29,11 @@ public class User implements UserDetails {
     public User() {
     }
 
-    public User(String EMBG, String username, String password, String firstName, String lastName,Role role) {
+    public Role getRole() {
+        return role;
+    }
+
+    public User(String EMBG, String username, String password, String firstName, String lastName, Role role) {
 
         this.EMBG = EMBG;
         this.username = username;
