@@ -1,11 +1,9 @@
 package com.elekuvanje.elekuvanje.model;
 
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Data
@@ -15,20 +13,30 @@ public class Termin {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
-    private Long setByDoctorId;
-    private Long setForPatientId;
+    @OneToOne
+    private User doctor;
+    @OneToOne
+    private User patient;
+    @DateTimeFormat(pattern = "yyyy/MM/dd HH:mm")
     private LocalDateTime dateAndTime;
     private String location;
     public Termin(){
 
     }
 
-    public Termin( Long setByDoctorId, Long setForPatientId, LocalDateTime dateAndTime, String location) {
-
-        this.setByDoctorId = setByDoctorId;
-        this.setForPatientId = setForPatientId;
+    public Termin(User doctor, User patient, LocalDateTime dateAndTime, String location) {
+        this.doctor = doctor;
+        this.patient = patient;
         this.dateAndTime = dateAndTime;
         this.location = location;
+    }
+
+    public User getDoctor() {
+        return doctor;
+    }
+
+    public User getPatient() {
+        return patient;
     }
 
     public Long getId() {
@@ -39,21 +47,6 @@ public class Termin {
         Id = id;
     }
 
-    public Long getSetByDoctorId() {
-        return setByDoctorId;
-    }
-
-    public void setSetByDoctorId(Long setByDoctorId) {
-        this.setByDoctorId = setByDoctorId;
-    }
-
-    public Long getSetForPatientId() {
-        return setForPatientId;
-    }
-
-    public void setSetForPatientId(Long setForPatientId) {
-        this.setForPatientId = setForPatientId;
-    }
 
     public LocalDateTime getDateAndTime() {
         return dateAndTime;

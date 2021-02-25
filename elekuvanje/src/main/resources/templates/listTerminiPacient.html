@@ -30,15 +30,22 @@
 
 <table>
     <tr>
-        <th>Име и презиме на доктор</th>
+        <th>ID на доктор</th>
+        <th>Име на доктор</th>
+        <th>Презиме на доктор</th>
         <th>Датум и време</th>
         <th>Детали за локација</th>
+
     </tr>
     <th:block th:each="termin : ${terminList}">
     <tr>
-        <td th:text="${termin.getId()}"></td>
-        <td th:text="${termin.getDateAndTime()}">02/22/2021 12:00PM</td>
-        <td th:text="${termin.getLocation()}">Соба за прегледување 1</td>
+        <td th:text="${termin.getDoctor().getId()}"></td>
+        <td th:text="${termin.getDoctor().getFirstName()}"></td>
+        <td th:text="${termin.getDoctor().getLastName()}"></td>
+        <td th:text="${termin.getDateAndTime()}"></td>
+        <td th:text="${termin.getLocation()}"></td>
+        <td><a th:href="@{'https://localhost/patient/termin/deleteTermin?terminID={id}' (id=${termin.getId()})}">Delete</a></td>
+        <td><a th:href="@{'https://localhost/patient/termin/editTermin?terminID={id}' (id=${termin.getId()})}">Edit</a></td>
     </tr>
     </th:block>
 </table>

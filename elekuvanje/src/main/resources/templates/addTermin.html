@@ -3,15 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Закажи термин</title>
-    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css">
-   <link th:href="@{../static/css/styles.css}" rel="stylesheet" />
-    <!--    <link rel="stylesheet" href="../static/css/styles.css">-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link th:href="@{/css/styles.css}" rel="stylesheet" />
 
-       <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-       <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/2.14.1/moment.min.js"></script>
-       <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-       <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
    </head>
    <body>
        <hr class="linija1" size="8" width="100%" color="red">
@@ -27,13 +21,18 @@
        <div class="vl" id="vert"></div>
        <img class="slika" id="slika1" src="/images/slika.jpg" alt="slika">
 
+
+       <form action="/doctor/termini/add" method="post">
        <div id="pacient">
            <label>Изберете пациент</label>
            <br/>
-           <select id="dropdown">
-               <option name="dropdown" value="Пациент1" selected>Пациент1</option>
-               <option name="dropdown" value="Пациент2">Пациент2</option>
-               <option name="dropdown" value="Пациент3">Пациент3</option>
+           <select id="dropdown" name="dropdown">
+               <th:block th:each="patient : ${patients}">
+                   <option th:if="${patient} != null"
+                           th:value="${patient.getId()}"
+                           th:text="${patient.getEMBG()}+' '+${patient.getFirstName()} + ' '+${patient.getLastName()}"
+                   ></option>
+               </th:block>
            </select>
        </div>
 
@@ -42,29 +41,19 @@
                <br/>
                <div class="form-group" id="termin">
                    <label class="control-label">Датум и време на преглед</label>
-                   <div class='input-group date' id='datetimepicker1'>
-                       <label>
-                           <input type='text' class="form-control" id="pole"/>
-                       </label>
-                       <span class="input-group-addon">
-                           <span class="glyphicon glyphicon-calendar"></span>
-                       </span>
-                   </div>
+                   <label for="datum">Датум</label>
+                   <input type="text" id="datum" name="birthdaytime">
+                   <!-- Sample format 2011/05/09 12:15 -->
                </div>
            </div>
        </div>
 
-       <div id="lokacija">
-           <br/>
-           <label>Локација</label>
-           <br/>
-           <textarea rows = "5" cols = "90" name = "description">
-               Внесете детална локација на прегледот...
-            </textarea><br>
-       </div>
+           <label for="description">Локација</label>
+           <input type="text" id="description" name="description"><br>
+
 
        <input type="submit" value="Закажи термин" id="kopce" class="kopce1">
-
+       </form>
    </body>
    </html>
    <script type="text/javascript">
@@ -76,9 +65,5 @@
        }
        setInterval(myDateFunction, 1000);
    </script>
-   <script>
-       $(function () {
-           $('#datetimepicker1').datetimepicker();
-       });
-   </script>
+
 
