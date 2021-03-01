@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <title>Закажи термин</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-    <link th:href="@{/css/styles.css}" rel="stylesheet" />
+<!--    <link th:href="@{/css/styles.css}" rel="stylesheet" />-->
+    <link rel="stylesheet" href="../static/css/styles.css">
 
    </head>
    <body>
@@ -19,7 +20,7 @@
        <hr id="linija" size="8" width="86%" color="red">
 
        <div class="vl" id="vert"></div>
-       <img class="slika" id="slika1" src="/images/slika.jpg" alt="slika">
+       <img class="slika" id="slika1" src="../static/images/slika.jpg" alt="slika">
 
 
        <form action="/doctor/termini/add" method="post">
@@ -40,16 +41,20 @@
            <div class='col-md-6'>
                <br/>
                <div class="form-group" id="termin">
-                   <label class="control-label">Датум и време на преглед</label>
-                   <label for="datum">Датум</label>
-                   <input type="text" id="datum" name="birthdaytime">
+<!--                   <label class="control-label">Датум и време на преглед</label>-->
+<!--                   <p>Внесете датум и време на преглед </p>-->
+                   <label for="datum">Внесете датум и време на преглед (пр. 2021/02/28 12:15)</label>
+                   <input type="text" id="datum" name="birthdaytime" class="uredi">
                    <!-- Sample format 2011/05/09 12:15 -->
                </div>
            </div>
        </div>
+        <div class="lok">
+            <label for="description">Локација на прегледот</label>
+            <br/>
+            <input type="text" id="description" name="description" class="uredi">
+        </div>
 
-           <label for="description">Локација</label>
-           <input type="text" id="description" name="description"><br>
 
 
        <input type="submit" value="Закажи термин" id="kopce" class="kopce1">
