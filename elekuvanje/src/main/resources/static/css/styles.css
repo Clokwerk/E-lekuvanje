@@ -122,7 +122,7 @@ body{
     font-size: 16px;
 }
 #termin{
-    margin-right: 550px;
+    width: 500px;
     margin-left: -170px;
     /*float: left;*/
     margin-top: 100px;
@@ -257,7 +257,7 @@ th {
 }
 #kopce2{
     float: left;
-    margin-top: 40px;
+    margin-top: -60px;
     margin-left: 800px;
     background-color: ghostwhite;
     padding: 16px 32px;
@@ -282,4 +282,21 @@ th {
     color: #1D577A;
     border: 2px solid #1D577A;
     width: auto;
+}
+#kopce4{
+    float: left;
+    margin-top: 40px;
+    margin-left: 520px;
+    background-color: ghostwhite;
+    padding: 16px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+    border: 2px solid #1D577A;
+}
+.lok{
+    margin-left: 310px;
+    margin-top: 20px;
 }

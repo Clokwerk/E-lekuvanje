@@ -1,6 +1,7 @@
 package com.elekuvanje.elekuvanje.service.impl;
 
 import com.elekuvanje.elekuvanje.model.Termin;
+import com.elekuvanje.elekuvanje.model.User;
 import com.elekuvanje.elekuvanje.repository.TerminRepository;
 import com.elekuvanje.elekuvanje.service.TerminService;
 import org.springframework.stereotype.Service;
@@ -28,18 +29,18 @@ public class TerminServiceImpl implements TerminService {
     }
 
     @Override
-    public void createTermin(Long doctorId, Long patientId, LocalDateTime dateTime,String location) {
-        this.terminRepository.save(new Termin(doctorId,patientId,dateTime,location));
+    public void createTermin(User doctor, User patient, LocalDateTime dateTime, String location) {
+        this.terminRepository.save(new Termin(doctor,patient,dateTime,location));
     }
 
     @Override
     public List<Termin> findBySetByDoctorId(Long doctorId) {
-        return this.terminRepository.findAll().stream().filter(x->x.getSetByDoctorId()==doctorId).collect(Collectors.toList());
+        return this.terminRepository.findAll().stream().filter(x->x.getDoctor().getId()==doctorId).collect(Collectors.toList());
     }
 
     @Override
     public List<Termin> findBySetForPatientId(Long patientId) {
-        return this.terminRepository.findAll().stream().filter(x->x.getSetForPatientId()==patientId).collect(Collectors.toList());
+        return this.terminRepository.findAll().stream().filter(x->x.getPatient().getId()==patientId).collect(Collectors.toList());
 
     }
 
