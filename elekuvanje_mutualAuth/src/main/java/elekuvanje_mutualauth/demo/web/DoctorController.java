@@ -1,30 +1,29 @@
-package com.elekuvanje.elekuvanje.web;
+package elekuvanje_mutualauth.demo.web;
 
 import com.elekuvanje.elekuvanje.exceptions.InvalidArgumentsException;
 import com.elekuvanje.elekuvanje.exceptions.NoSuchUserException;
-import com.elekuvanje.elekuvanje.model.Termin;
-import com.elekuvanje.elekuvanje.model.User;
-import com.elekuvanje.elekuvanje.repository.UserRepository;
-import com.elekuvanje.elekuvanje.service.TerminService;
 
+
+import elekuvanje_mutualauth.demo.model.Termin;
+import elekuvanje_mutualauth.demo.model.User;
+import elekuvanje_mutualauth.demo.repository.UserRepository;
+import elekuvanje_mutualauth.demo.service.TerminService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.view.RedirectView;
-
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+
+
 import java.security.Principal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
-/*@Controller
+@Controller
 
 @RequestMapping("/doctor")
-
- */
 
 public class DoctorController {
     private final TerminService terminService;
@@ -46,8 +45,9 @@ public class DoctorController {
     }
 
     @PostMapping(value="/login")
-    public String postLoginPage(HttpServletRequest request,Model model){
+    public String postLoginPage(HttpServletRequest request,Model model,Principal principal){
         User user=null;
+        String currentlyLoggedIn=principal.getName();
         try {
             String username = request.getParameter("username");
             String password = request.getParameter("password");
@@ -56,7 +56,7 @@ public class DoctorController {
             }
 
              user = this.userRepository.findByUsernameAndPassword(username, password).orElse(null);
-            if (user != null && user.getRole().toString().equals("ROLE_DOCTOR")) {
+            if (user != null && user.getRole().toString().equals("ROLE_DOCTOR")&&currentlyLoggedIn.equals(user.getUsername())) {
                 request.getSession().setAttribute("doctor", user);
                 return "redirect:/doctor/termini";
             }else{
@@ -74,12 +74,12 @@ public class DoctorController {
 
     @GetMapping(value="/termini")
 
-    public String getTerminiPage(Model model, HttpServletRequest request){
+    public String getTerminiPage(Model model, HttpServletRequest request,Principal principal){
 
 
-
+        String currentlyLoggedIn=principal.getName();
         User user=(User) request.getSession().getAttribute("doctor");
-        if(user == null){
+        if(user == null && currentlyLoggedIn.equals(user.getUsername())){
             return "redirect:/doctor/login";
         }
         List<Termin> terminList=this.terminService.findBySetByDoctorId(userRepository.findByUsername(user.getUsername()).get().getId());
@@ -89,12 +89,12 @@ public class DoctorController {
     }
 
     @GetMapping(value="/termini/add")
-    public String getAddTerminiPage( Model model, HttpServletRequest request){
+    public String getAddTerminiPage( Model model, HttpServletRequest request,Principal principal){
 
 
-
+        String currentlyLoggedIn=principal.getName();
         User user=(User) request.getSession().getAttribute("doctor");
-        if(user == null){
+        if(user == null && currentlyLoggedIn.equals(user.getUsername())){
             return "redirect:/doctor/login";
         }
         List<User> patients=this.userRepository.findAll().stream().filter(x->x.getRole().toString().equals("ROLE_PATIENT")).collect(Collectors.toList());
@@ -105,11 +105,11 @@ public class DoctorController {
     }
 
     @PostMapping(value="/termini/add")
-    public String postAddTermini( @RequestParam() String birthdaytime,@RequestParam() Long dropdown, HttpServletRequest request,@RequestParam() String description){
+    public String postAddTermini(@RequestParam() String birthdaytime, @RequestParam() Long dropdown, HttpServletRequest request, @RequestParam() String description,Principal principal){
 
-
+        String currentlyLoggedIn=principal.getName();
         User user=(User) request.getSession().getAttribute("doctor");
-        if(user == null){
+        if(user == null && currentlyLoggedIn.equals(user.getUsername())){
             return "redirect:/doctor/login";
         }
         User patient=this.userRepository.findById(dropdown).get();
@@ -121,8 +121,12 @@ public class DoctorController {
 
 
    @GetMapping(value="/termin/deleteTermin")
-   public String deleteTermin(@RequestParam(required = true) Long terminID,HttpServletRequest request){
+   public String deleteTermin(@RequestParam(required = true) Long terminID,HttpServletRequest request,Principal principal){
+       String currentlyLoggedIn=principal.getName();
        User user=(User) request.getSession().getAttribute("doctor");
+       if(user == null && currentlyLoggedIn.equals(user.getUsername())){
+           return "redirect:/doctor/login";
+       }
        List<Termin> termins=this.terminService.
                findBySetByDoctorId(user.getId()).stream().filter(x->x.getId()==terminID).
                collect(Collectors.toList()); // check if Termin belongs to doctor
