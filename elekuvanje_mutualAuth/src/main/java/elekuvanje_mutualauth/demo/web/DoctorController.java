@@ -1,9 +1,10 @@
 package elekuvanje_mutualauth.demo.web;
 
-import com.elekuvanje.elekuvanje.exceptions.InvalidArgumentsException;
-import com.elekuvanje.elekuvanje.exceptions.NoSuchUserException;
 
 
+
+import elekuvanje_mutualauth.demo.exceptions.InvalidArgumentsException;
+import elekuvanje_mutualauth.demo.exceptions.NoSuchUserException;
 import elekuvanje_mutualauth.demo.model.Termin;
 import elekuvanje_mutualauth.demo.model.User;
 import elekuvanje_mutualauth.demo.repository.UserRepository;

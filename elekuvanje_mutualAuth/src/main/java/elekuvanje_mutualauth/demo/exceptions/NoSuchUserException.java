@@ -1,4 +1,4 @@
-package com.elekuvanje.elekuvanje.exceptions;
+package elekuvanje_mutualauth.demo.exceptions;
 
 public class NoSuchUserException extends Exception {
     public NoSuchUserException() {

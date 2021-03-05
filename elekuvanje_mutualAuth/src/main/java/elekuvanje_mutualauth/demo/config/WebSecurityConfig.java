@@ -18,7 +18,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         // http.authorizeRequests().mvcMatchers("/doctor").hasRole("DOCTOR").mvcMatchers("/termini").permitAll().and().x509().subjectPrincipalRegex("CN=(.*?)(?:,|$)").userDetailsService(userService);
         http.csrf().disable().authorizeRequests()
                 .antMatchers("/","/patient/**","/css/**", "/images/**", "/js/**").permitAll()
-                .antMatchers("/doctor/**").hasRole("DOCTOR").anyRequest().authenticated()
+                .antMatchers("/doctor/**").hasRole("DOCTOR").
+                antMatchers("/admin/**").hasRole("ADMIN").anyRequest().authenticated()
+
                 .and()
                 .x509()
                 .subjectPrincipalRegex("CN=(.*?)(?:,|$)")
