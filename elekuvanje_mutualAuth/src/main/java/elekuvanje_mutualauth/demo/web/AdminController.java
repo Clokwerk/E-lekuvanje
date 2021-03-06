@@ -81,7 +81,7 @@ public class AdminController {
     }
 
     @PostMapping(value="/termini/add")
-    public String postAddTermini(@RequestParam() String birthdaytime, @RequestParam() Long dropdown, HttpServletRequest request, @RequestParam() String description, Principal principal){
+    public String postAddTermini(@RequestParam() String birthdaytime, @RequestParam() Long dropdown,@RequestParam Long dropdown1, HttpServletRequest request, @RequestParam() String description, Principal principal){
 
         String currentlyLoggedIn=principal.getName();
         User user=(User) request.getSession().getAttribute("admin");
@@ -89,9 +89,10 @@ public class AdminController {
             return "redirect:/admin/login";
         }
         User patient=this.userRepository.findById(dropdown).get();
+        User doctor=this.userRepository.findById(dropdown1).get();
         DateTimeFormatter formatter= DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm");
         LocalDateTime datum=LocalDateTime.parse(birthdaytime,formatter);
-        this.terminService.createTermin(user,patient,datum,description);
+        this.terminService.createTermin(doctor,patient,datum,description);
         return "redirect:/admin/termini";
     }
 
@@ -119,7 +120,7 @@ public class AdminController {
         if(user == null && currentlyLoggedIn.equals(user.getUsername())){
             return "redirect:/admin/login";
         }
-        List<Termin> termins=this.terminService.
+       /* List<Termin> termins=this.terminService.
                 findBySetByDoctorId(user.getId()).stream().filter(x->x.getId()==terminID).
                 collect(Collectors.toList()); // check if Termin belongs to doctor
         if(termins.isEmpty()){
@@ -128,6 +129,9 @@ public class AdminController {
             this.terminService.deleteById(terminID);
 
         }
+
+        */
+        this.terminService.deleteById(terminID);
         return "redirect:/admin/termini";
 
     }

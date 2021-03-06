@@ -37,6 +37,19 @@
         </select>
     </div>
 
+    <div id="doctor">
+        <label>Изберете пациент</label>
+        <br/>
+        <select id="dropdown" name="dropdown1"> <!-- redefiniraj go dropdown kako klasa namesto ID-->
+            <th:block th:each="doctor : ${doctors}">
+                <option th:if="${doctor} != null"
+                        th:value="${doctor.getId()}"
+                        th:text="${doctor.getId()}+' '+${doctor.getFirstName()} + ' '+${doctor.getLastName()}"
+                ></option>
+            </th:block>
+        </select>
+    </div>
+
     <div class="row">
         <div class='col-md-6'>
             <br/>
