@@ -123,9 +123,9 @@ body{
 }
 #termin{
     width: 500px;
-    margin-left: -170px;
+    margin-left: -165px;
     /*float: left;*/
-    margin-top: 100px;
+    margin-top: 180px;
     position: relative;
     font-size: 16px;
 }
@@ -141,6 +141,12 @@ select {
     margin-top: 20px;
     float: left;
     padding-left: 110px;
+    font-size: 16px;
+}
+#doctor{
+    margin-top: 110px;
+    float: left;
+    margin-left: -150px;
     font-size: 16px;
 }
 .input-group-addon{
@@ -297,6 +303,6 @@ th {
     border: 2px solid #1D577A;
 }
 .lok{
-    margin-left: 310px;
-    margin-top: 20px;
+    margin-left: 315px;
+    margin-top: 10px;
 }
