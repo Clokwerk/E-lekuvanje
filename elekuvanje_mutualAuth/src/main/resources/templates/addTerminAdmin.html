@@ -5,7 +5,7 @@
     <title>Закажи термин</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <link th:href="@{/css/styles.css}" rel="stylesheet" />
-    <!--    <link rel="stylesheet" href="../static/css/styles.css">-->
+<!--        <link rel="stylesheet" href="../static/css/styles.css">-->
 
 </head>
 <body>
@@ -38,9 +38,9 @@
     </div>
 
     <div id="doctor">
-        <label>Изберете пациент</label>
+        <label>Изберете доктор</label>
         <br/>
-        <select id="dropdown" name="dropdown1"> <!-- redefiniraj go dropdown kako klasa namesto ID-->
+        <select id="dropdown1" name="dropdown1">
             <th:block th:each="doctor : ${doctors}">
                 <option th:if="${doctor} != null"
                         th:value="${doctor.getId()}"
