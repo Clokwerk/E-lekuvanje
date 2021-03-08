@@ -9,6 +9,7 @@ import elekuvanje_mutualauth.demo.model.Termin;
 import elekuvanje_mutualauth.demo.model.User;
 import elekuvanje_mutualauth.demo.repository.UserRepository;
 import elekuvanje_mutualauth.demo.service.TerminService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -29,9 +30,11 @@ import java.util.stream.Collectors;
 public class DoctorController {
     private final TerminService terminService;
     private final UserRepository userRepository;
-    public DoctorController(TerminService terminService,UserRepository userRepository){
+    private final PasswordEncoder passwordEncoder;
+    public DoctorController(TerminService terminService,UserRepository userRepository,PasswordEncoder passwordEncoder){
         this.terminService=terminService;
         this.userRepository=userRepository;
+        this.passwordEncoder=passwordEncoder;
     }
    /* @GetMapping(value = "/login")
     public RedirectView getLoginPage(Model model) {
@@ -56,8 +59,9 @@ public class DoctorController {
                 throw new InvalidArgumentsException();
             }
 
-             user = this.userRepository.findByUsernameAndPassword(username, password).orElse(null);
-            if (user != null && user.getRole().toString().equals("ROLE_DOCTOR")&&currentlyLoggedIn.equals(user.getUsername())) {
+             //user = this.userRepository.findByUsernameAndPassword(username, password).orElse(null);
+            user=this.userRepository.findByUsername(username).orElse(null);
+            if (user != null && passwordEncoder.matches(password,user.getPassword())&& user.getRole().toString().equals("ROLE_DOCTOR")&&currentlyLoggedIn.equals(user.getUsername())) {
                 request.getSession().setAttribute("doctor", user);
                 return "redirect:/doctor/termini";
             }else{

@@ -28,8 +28,13 @@ public class CustomPatientAuthenticationProvider implements AuthenticationProvid
             throw new BadCredentialsException("Invalid Credentials");
         }
         UserDetails userDetails = this.userService.loadUserByUsername(username);
-        if(!userDetails.getPassword().equals(password)){
+       /* if(!userDetails.getPassword().equals(password)){
             throw new BadCredentialsException("Bad Password");
+        }
+
+        */
+        if(!passwordEncoder.matches(password,userDetails.getPassword())){
+            throw new BadCredentialsException("Bad password");
         }
         return new UsernamePasswordAuthenticationToken(userDetails,userDetails.getPassword(),userDetails.getAuthorities());
     }
